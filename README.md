@@ -11,12 +11,12 @@
 
 * Install using [npm](https://www.npmjs.com/):
 ```bash
-npm install -g @the-utd/themeplify
+npm install -g @hodzitsky/themeplify
 ```
 
 * Install using [yarn](https://yarnpkg.com/):
 ```bash
-yarn global add @the-utd/themeplify
+yarn global add @hodzitsky/themeplify
 ```
 
 `Global install using npm is preferable way to install package globally`
@@ -24,7 +24,7 @@ yarn global add @the-utd/themeplify
 **Local Install:**
 * Install all dependencies with [yarn](https://yarnpkg.com/)
 ```bash
-yarn add --dev @the-utd/themeplify
+yarn add --dev @hodzitsky/themeplify
 ```
 
 * Add and configure your config.yml file. You can copy the example from the file [config.example.yml](./config.example.yml)
