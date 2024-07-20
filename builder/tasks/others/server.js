@@ -31,7 +31,7 @@ const createServer = async () => {
 			return;
 		}
 
-		const shop = await axios(`https://${config.store}/admin/api/2020-07/shop.json?fields=id,domain`, {
+		const shop = config.domain || await axios(`https://${config.store}/admin/api/2020-07/shop.json?fields=id,domain`, {
 			method: "GET",
 			responseType: "json",
 			headers: {
