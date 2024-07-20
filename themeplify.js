@@ -192,10 +192,14 @@ const configPath = themeplify.helpers.themePath("./builder.config.js");
 let customConfig = {};
 
 if(fs.existsSync(configPath)) {
-	customConfig = require(configPath);
+	customConfig = require(configPath) || {};
 }
 
-themeplify.customConfig = customConfig || {};
+themeplify.customConfig = {
+	minify: false,
+	svgUpdate: true,
+	...customConfig
+};
 
 themeplify.functions = {
 	images: {
