@@ -30,7 +30,6 @@ module.exports = (svgFiles = files.svg.general, options = {}) => {
 
 				callback(null, file);
 			}))
-            .pipe(gulp.dest(`./dist/assets`))
             .pipe(rename({
                 extname: ".liquid",
                 dirname: ''
