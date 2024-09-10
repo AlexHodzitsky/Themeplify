@@ -8,22 +8,21 @@ const {
 	postcss,
 	gulpif,
 	cached,
-	sassInheritance,
+	dependents,
 	filter
 } = themeplify.packages;
 
 const files 	= themeplify.files;
-const path		= require("path");
+const path	= require("path");
 const plugins 	= Object.values(themeplify.options.postcss.plugins);
 
 module.exports = (scssFiles = files.scss, options = {}) => {
 	return new Promise((resolve, reject) => {
 		return gulp.src(scssFiles, options)
 			.pipe(plumber())
-			.pipe(gulpif(global.sassWatch === true, cached("scss")))
-			.pipe(sassInheritance({
-				dir: './src/styles/'
-			}))
+			.pipe(gulpif(global.sassWatch === true, cached("sass")))
+			.pipe(dependents())
+			.pipe(filter(files.parentSCSS))
 			.pipe(filter(function (file) {
 				return !/\/_/.test(file.path) || !/^_/.test(file.relative);
 			}))

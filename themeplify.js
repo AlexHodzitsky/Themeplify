@@ -25,6 +25,7 @@ themeplify.packages = {
 	findRoot: themeplify.require("find-root"),
 	gulp: themeplify.require("gulp"),
 	cached: themeplify.require("gulp-cached"),
+	dependents: themeplify.require("gulp-dependents"),
 	clean: themeplify.require("gulp-clean"),
 	copy: themeplify.require("gulp-copy"),
 	download: themeplify.require("gulp-download2"),
@@ -37,7 +38,6 @@ themeplify.packages = {
 	prettier: themeplify.require("gulp-prettier"),
 	rename: themeplify.require("gulp-rename"),
 	sass: sass,
-	sassInheritance: themeplify.require("gulp-sass-inheritance"),
 	sourcemaps: themeplify.require("gulp-sourcemaps"),
 	svgo: themeplify.require("gulp-svgo"),
 	zip: themeplify.require("gulp-zip"),
@@ -110,10 +110,13 @@ themeplify.files = {
 		snippets: "./src/snippets"
 	},
 	srcAssets: "./src/assets",
+	parentSCSS: [
+		"*src/styles/_*.*",
+		"*src/styles/*.*",
+		"*src/styles/**/component-*.*"
+	],
 	scss: [
-		"!./src/styles/_*.{scss,sass}",
-		"./src/styles/*.{scss,sass}",
-		"./src/styles/**/component-*.{scss,sass}",
+		"./src/styles/**/*.{scss,sass,css}"
 	],
 	scssLiquid: "./src/styles/*.css.liquid",
 	compileOutput: "./dist/assets",
