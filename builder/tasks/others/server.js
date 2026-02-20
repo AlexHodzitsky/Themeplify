@@ -159,12 +159,41 @@ const createServer = async () => {
 				cookies: {
 					stripDomain: false
 				},
-				ws: true,
+				ws: false,
+				proxyReq: [
+					function (proxyReq, req, res) {
+						// Preserve browser identity headers
+						if (req.headers['user-agent']) {
+							proxyReq.setHeader('user-agent', req.headers['user-agent']);
+						}
+
+						if (req.headers['accept-language']) {
+							proxyReq.setHeader('accept-language', req.headers['accept-language']);
+						}
+
+						if (req.headers['accept']) {
+							proxyReq.setHeader('accept', req.headers['accept']);
+						}
+
+						// Preserve Shopify session cookies (VERY important)
+						if (req.headers.cookie) {
+							proxyReq.setHeader('cookie', req.headers.cookie);
+						}
+
+						// Prevent proxy fingerprinting
+						proxyReq.removeHeader('x-forwarded-host');
+					}
+				],
 				middleware: [
 					...middleware,
 					function(req, res, next) {
-						const prefix = req.url.indexOf('?') > -1 ? '&' : '?';
+						const isHTML = req.headers.accept?.includes('text/html');
+
+						if (!isHTML) return next();
+
+						const prefix = req.url.includes('?') ? '&' : '?';
 						req.url += prefix + queryStringComponents.join('&');
+
 						next();
 					}
 				],
@@ -178,15 +207,6 @@ const createServer = async () => {
 			ghostMode: false,
 			stream: true,
 			logSnippet: false,
-			snippetOptions: {
-				// fix https://community.shopify.com/c/Technical-Q-A/Unknown-error-using-Slate-and-Browser-Sync/td-p/564376
-				rule: {
-					match: /<head[^>]*>/i,
-					fn: function(snippet, match) {
-						return match + snippet;
-					}
-				}
-			},
 			rewriteRules: rewriteRules
 		};
 
